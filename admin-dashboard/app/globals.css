@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-border: 220 226 235;
+  --color-surface: 247 249 252;
+  --color-panel: 255 255 255;
+  --color-elevated: 255 255 255;
+  --color-ink: 15 23 42;
+  --color-muted: 96 111 128;
+  background: rgb(var(--color-surface));
+  color: rgb(var(--color-ink));
+}
+
+.dark {
+  color-scheme: dark;
+  --color-border: 43 53 70;
+  --color-surface: 8 13 21;
+  --color-panel: 13 20 31;
+  --color-elevated: 18 27 40;
+  --color-ink: 241 245 249;
+  --color-muted: 148 163 184;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.08), transparent 28rem),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 30rem),
+    rgb(var(--color-surface));
+  color: rgb(var(--color-ink));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.glass-panel {
+  border: 1px solid rgb(var(--color-border) / 0.78);
+  background: rgb(var(--color-panel) / 0.82);
+  backdrop-filter: blur(18px);
+}

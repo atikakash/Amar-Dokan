@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-border: 220 228 236;
+  --color-surface: 247 249 246;
+  --color-panel: 255 255 255;
+  --color-elevated: 255 255 255;
+  --color-ink: 15 23 42;
+  --color-muted: 91 104 119;
+  background: rgb(var(--color-surface));
+  color: rgb(var(--color-ink));
+}
+
+.dark {
+  color-scheme: dark;
+  --color-border: 45 55 72;
+  --color-surface: 10 15 22;
+  --color-panel: 15 23 32;
+  --color-elevated: 20 31 43;
+  --color-ink: 241 245 249;
+  --color-muted: 148 163 184;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(34, 168, 97, 0.10), transparent 32rem),
+    radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 30rem),
+    rgb(var(--color-surface));
+  color: rgb(var(--color-ink));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(34, 168, 97, 0.22);
+}
+
+.glass-panel {
+  border: 1px solid rgb(var(--color-border) / 0.78);
+  background: rgb(var(--color-panel) / 0.82);
+  backdrop-filter: blur(18px);
+}
+
+.premium-gradient {
+  background:
+    linear-gradient(135deg, rgba(7, 59, 37, 0.96), rgba(22, 131, 74, 0.92) 42%, rgba(37, 99, 235, 0.80)),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.26), transparent 22rem);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #2b74a8;
+  outline-offset: 2px;
+}
