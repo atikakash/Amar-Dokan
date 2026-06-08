@@ -1,6 +1,7 @@
 .local/
 *.log
 *.tsbuildinfo
+.env.production
 
 backend/.env
 backend/storage/logs/*
