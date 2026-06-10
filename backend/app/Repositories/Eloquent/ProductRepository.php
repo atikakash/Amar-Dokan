@@ -3,9 +3,10 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Product;
+use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 
-class ProductRepository extends BaseRepository
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
     public function __construct(Product $product)
     {

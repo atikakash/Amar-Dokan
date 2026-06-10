@@ -4,6 +4,9 @@
 .env.production
 
 backend/.env
+backend/.phpunit.result.cache
+backend/bootstrap/cache/*
+!backend/bootstrap/cache/.gitkeep
 backend/storage/logs/*
 backend/storage/framework/cache/*
 backend/storage/framework/sessions/*

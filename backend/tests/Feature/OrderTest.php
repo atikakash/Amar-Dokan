@@ -27,7 +27,7 @@ class OrderTest extends TestCase
         $this->postJson('/api/v1/cart/items', [
             'product_id' => $product->id,
             'quantity' => 2,
-        ])->assertOk();
+        ])->assertCreated();
 
         $response = $this->postJson('/api/v1/orders', [
             'shipping_address' => [

@@ -12,10 +12,12 @@ import { useCategories, useProducts } from "@/lib/hooks/use-commerce";
 import { currency, productImage } from "@/lib/utils/format";
 
 export function HomePage() {
-  const products = useProducts({ per_page: 8, is_active: true, is_featured: true });
-  const fallbackProducts = useProducts({ per_page: 8, is_active: true });
+  const featuredProducts = useProducts({ per_page: 8, is_active: true, is_featured: true });
+  const activeProducts = useProducts({ per_page: 8, is_active: true });
   const categories = useCategories({ per_page: 6, is_active: true });
-  const rows = products.data?.data.length ? products.data.data : fallbackProducts.data?.data ?? [];
+  const rows = [...(featuredProducts.data?.data ?? []), ...(activeProducts.data?.data ?? [])]
+    .filter((product, index, products) => products.findIndex((item) => item.id === product.id) === index)
+    .slice(0, 8);
   const heroImage = productImage(rows[0]?.images?.[0]?.url);
 
   return (

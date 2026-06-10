@@ -5,16 +5,22 @@ import { cartApi, catalogApi, couponsApi, ordersApi, paymentsApi, wishlistApi } 
 import type { ApiFilters, CheckoutPayload, PaymentGateway } from "@/lib/api/types";
 import { getStoredToken } from "@/lib/state/auth-store";
 
+const catalogRefresh = {
+  refetchInterval: 10_000,
+  refetchIntervalInBackground: false,
+  staleTime: 0,
+};
+
 export function useProducts(filters?: ApiFilters) {
-  return useQuery({ queryKey: ["products", filters], queryFn: () => catalogApi.products(filters) });
+  return useQuery({ queryKey: ["products", filters], queryFn: () => catalogApi.products(filters), ...catalogRefresh });
 }
 
 export function useProduct(id: string | number) {
-  return useQuery({ queryKey: ["products", id], queryFn: () => catalogApi.product(id), enabled: Boolean(id) });
+  return useQuery({ queryKey: ["products", id], queryFn: () => catalogApi.product(id), enabled: Boolean(id), ...catalogRefresh });
 }
 
 export function useCategories(filters?: ApiFilters) {
-  return useQuery({ queryKey: ["categories", filters], queryFn: () => catalogApi.categories(filters) });
+  return useQuery({ queryKey: ["categories", filters], queryFn: () => catalogApi.categories(filters), ...catalogRefresh });
 }
 
 export function useCart() {

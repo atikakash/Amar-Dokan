@@ -14,13 +14,13 @@ class AuthTest extends TestCase
     {
         $response = $this->postJson('/api/v1/auth/register', [
             'name' => 'New Customer',
-            'email' => 'new@example.com',
+            'email' => 'new.customer@gmail.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
         ]);
 
         $response->assertCreated()
-            ->assertJsonPath('data.user.email', 'new@example.com')
+            ->assertJsonPath('data.user.email', 'new.customer@gmail.com')
             ->assertJsonStructure(['data' => ['access_token', 'token_type', 'user']]);
     }
 

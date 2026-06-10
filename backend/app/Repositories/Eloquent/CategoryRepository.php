@@ -3,9 +3,10 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Category;
+use App\Repositories\Contracts\CategoryRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 
-class CategoryRepository extends BaseRepository
+class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
 {
     public function __construct(Category $category)
     {
