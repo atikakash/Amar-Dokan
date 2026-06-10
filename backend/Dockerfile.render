@@ -1,0 +1,46 @@
+FROM composer:2 AS vendor
+
+WORKDIR /app
+COPY backend/composer.json backend/composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-scripts \
+    --no-interaction \
+    --no-progress \
+    --prefer-dist \
+    --optimize-autoloader \
+    --ignore-platform-req=ext-pcntl
+
+FROM php:8.4-cli-alpine AS runtime
+
+WORKDIR /var/www/html
+
+RUN apk add --no-cache \
+        bash \
+        curl \
+        icu-dev \
+        libzip-dev \
+        oniguruma-dev \
+        postgresql-dev \
+        tzdata \
+        zip \
+    && docker-php-ext-install \
+        bcmath \
+        intl \
+        mbstring \
+        opcache \
+        pdo_mysql \
+        pdo_pgsql \
+        zip
+
+COPY --from=vendor /app/vendor ./vendor
+COPY backend .
+
+RUN mkdir -p storage/app/public storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+    && php artisan package:discover --ansi \
+    && chmod +x render-start.sh \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+ENV PORT=10000
+
+CMD ["sh", "render-start.sh"]
