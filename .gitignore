@@ -26,3 +26,5 @@ mobile-app/android/local.properties
 mobile-app/ios/Flutter/Generated.xcconfig
 mobile-app/ios/Flutter/flutter_export_environment.sh
 mobile-app/ios/Flutter/ephemeral/
+
+.vercel
