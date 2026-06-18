@@ -45,6 +45,10 @@ class DatabaseSeeder extends Seeder
     {
         $categories = [];
 
+        Category::query()
+            ->whereIn('slug', ['electronics', 'fashion', 'home'])
+            ->update(['is_active' => false]);
+
         foreach ([
             [
                 'key' => 'cat-food',
@@ -110,6 +114,10 @@ class DatabaseSeeder extends Seeder
      */
     private function seedProducts(array $categories): void
     {
+        Product::query()
+            ->whereIn('sku', ['AUD-NOVA-01', 'WCH-PULSE-02', 'BAG-CANVAS-03', 'HOM-POUR-04'])
+            ->update(['is_active' => false]);
+
         foreach ([
             [
                 'category' => 'cat-food',
