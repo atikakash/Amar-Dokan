@@ -3,6 +3,7 @@
 import axios from "axios";
 import type {
   ApiEnvelope,
+  ApiFilters,
   AuthResponse,
   Cart,
   CartItem,
@@ -34,10 +35,10 @@ const categories: Category[] = [
   {
     id: 1,
     parent_id: null,
-    name: "Electronics",
-    slug: "electronics",
-    description: "Phones, audio, and smart devices.",
-    image: "https://images.unsplash.com/photo-1498049794561-7780e7231661",
+    name: "Cat Food",
+    slug: "cat-food",
+    description: "Dry food, wet food, kitten meals, and premium formulas.",
+    image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119",
     is_active: true,
     sort_order: 1,
     created_at: now,
@@ -46,10 +47,10 @@ const categories: Category[] = [
   {
     id: 2,
     parent_id: null,
-    name: "Fashion",
-    slug: "fashion",
-    description: "Everyday apparel and accessories.",
-    image: "https://images.unsplash.com/photo-1445205170230-053b83016050",
+    name: "Cat Litter",
+    slug: "cat-litter",
+    description: "Clumping litter, tofu litter, deodorizer, and trays.",
+    image: "https://images.unsplash.com/photo-1570824104453-508955ab713e",
     is_active: true,
     sort_order: 2,
     created_at: now,
@@ -58,12 +59,48 @@ const categories: Category[] = [
   {
     id: 3,
     parent_id: null,
-    name: "Home",
-    slug: "home",
-    description: "Home, kitchen, and lifestyle goods.",
-    image: "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6",
+    name: "Accessories",
+    slug: "accessories",
+    description: "Bowls, collars, carriers, toys, grooming, and care items.",
+    image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f",
     is_active: true,
     sort_order: 3,
+    created_at: now,
+    updated_at: now,
+  },
+  {
+    id: 4,
+    parent_id: null,
+    name: "Dog Essentials",
+    slug: "dog-essentials",
+    description: "Food, treats, grooming, and daily care for dogs.",
+    image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee",
+    is_active: true,
+    sort_order: 4,
+    created_at: now,
+    updated_at: now,
+  },
+  {
+    id: 5,
+    parent_id: null,
+    name: "Health Care",
+    slug: "health-care",
+    description: "Deworming, supplements, hygiene, and routine wellness.",
+    image: "https://images.unsplash.com/photo-1615461066841-6116e61058f4",
+    is_active: true,
+    sort_order: 5,
+    created_at: now,
+    updated_at: now,
+  },
+  {
+    id: 6,
+    parent_id: null,
+    name: "Treats",
+    slug: "treats",
+    description: "Crunchy bites, creamy treats, and reward snacks.",
+    image: "https://images.unsplash.com/photo-1601758064224-c3c94cf1f14f",
+    is_active: true,
+    sort_order: 6,
     created_at: now,
     updated_at: now,
   },
@@ -73,75 +110,135 @@ const products: Product[] = [
   {
     id: 1,
     category_id: 1,
-    name: "Nova Wireless Headphones",
-    slug: "nova-wireless-headphones",
-    sku: "AUD-NOVA-01",
-    description: "Noise-cancelling wireless headphones with soft ear cups and all-day battery life.",
-    price: "129.00",
-    compare_price: "159.00",
+    name: "Reflex Plus Adult Cat Food Salmon 1.5kg",
+    slug: "reflex-plus-adult-cat-food-salmon-1-5kg",
+    sku: "CAT-REF-SAL-15",
+    description: "Complete salmon dry food for adult cats with balanced protein, vitamins, and digestive support.",
+    price: "1450.00",
+    compare_price: "1650.00",
     stock_quantity: 18,
     low_stock_threshold: 8,
     is_active: true,
     is_featured: true,
-    attributes: { color: "Black", warranty: "1 year" },
-    images: [{ id: 1, url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e", alt_text: "Headphones", sort_order: 1, is_primary: true }],
-    reviews: [],
+    attributes: { weight: "1.5kg", flavour: "Salmon", sold_count: "126", reward_points: "14", delivery_note: "Inside Dhaka 1-2 days" },
+    images: [
+      { id: 1, url: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119", alt_text: "Cat food bag", sort_order: 1, is_primary: true },
+      { id: 11, url: "https://images.unsplash.com/photo-1574144611937-0df059b5ef3e", alt_text: "Adult cat eating", sort_order: 2, is_primary: false },
+    ],
+    reviews: [
+      { id: 1, product_id: 1, user_id: 10, rating: 5, title: "Good for picky cats", comment: "Fresh pack and fast delivery in Dhaka.", is_approved: true, created_at: now },
+    ],
     created_at: now,
     updated_at: now,
   },
   {
     id: 2,
-    category_id: 1,
-    name: "Pulse Smart Watch",
-    slug: "pulse-smart-watch",
-    sku: "WCH-PULSE-02",
-    description: "Fitness tracking, notifications, sleep insights, and water resistance.",
-    price: "89.00",
-    compare_price: null,
+    category_id: 2,
+    name: "Tofu Cat Litter Green Tea 6L",
+    slug: "tofu-cat-litter-green-tea-6l",
+    sku: "LIT-TOFU-GT-06",
+    description: "Low-dust clumping tofu litter with green tea fragrance and easy disposal.",
+    price: "780.00",
+    compare_price: "900.00",
     stock_quantity: 4,
     low_stock_threshold: 5,
     is_active: true,
     is_featured: true,
-    attributes: { color: "Graphite" },
-    images: [{ id: 2, url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30", alt_text: "Smart watch", sort_order: 1, is_primary: true }],
-    reviews: [],
+    attributes: { size: "6L", scent: "Green Tea", sold_count: "82", reward_points: "8", delivery_note: "Same-day delivery in selected Dhaka areas" },
+    images: [
+      { id: 2, url: "https://images.unsplash.com/photo-1570824104453-508955ab713e", alt_text: "Cat near litter area", sort_order: 1, is_primary: true },
+      { id: 12, url: "https://images.unsplash.com/photo-1606214174585-fe31582dc6ee", alt_text: "Cat care supplies", sort_order: 2, is_primary: false },
+    ],
+    reviews: [
+      { id: 2, product_id: 2, user_id: 10, rating: 4, title: "Controls smell well", comment: "Clumps nicely and has less dust than regular litter.", is_approved: true, created_at: now },
+    ],
     created_at: now,
     updated_at: now,
   },
   {
     id: 3,
     category_id: 2,
-    name: "Everyday Canvas Tote",
-    slug: "everyday-canvas-tote",
-    sku: "BAG-CANVAS-03",
-    description: "Durable tote bag with reinforced handles for daily carry.",
-    price: "34.00",
-    compare_price: "42.00",
+    name: "Adjustable Cat Harness and Leash Set",
+    slug: "adjustable-cat-harness-and-leash-set",
+    sku: "ACC-HARNESS-03",
+    description: "Soft breathable harness with secure clips and a matching leash for outdoor walks.",
+    price: "520.00",
+    compare_price: "650.00",
     stock_quantity: 25,
     low_stock_threshold: 6,
     is_active: true,
     is_featured: false,
-    attributes: { material: "Canvas" },
-    images: [{ id: 3, url: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7", alt_text: "Canvas tote", sort_order: 1, is_primary: true }],
+    attributes: { sizes: "S, M, L", colors: "Red, Blue, Black", sold_count: "64", reward_points: "5", delivery_note: "Exchange available for size issue" },
+    images: [
+      { id: 3, url: "https://images.unsplash.com/photo-1545249390-6bdfa286032f", alt_text: "Cat accessory", sort_order: 1, is_primary: true },
+      { id: 13, url: "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec", alt_text: "Cat wearing accessory", sort_order: 2, is_primary: false },
+    ],
     reviews: [],
     created_at: now,
     updated_at: now,
   },
   {
     id: 4,
-    category_id: 3,
-    name: "Ceramic Pour Over Set",
-    slug: "ceramic-pour-over-set",
-    sku: "HOM-POUR-04",
-    description: "A compact ceramic set for slow coffee mornings.",
-    price: "48.00",
+    category_id: 6,
+    name: "Creamy Cat Treat Tuna Pack",
+    slug: "creamy-cat-treat-tuna-pack",
+    sku: "TRT-CREAM-TUNA-04",
+    description: "Smooth tuna treat sticks for training, bonding, and picky snack moments.",
+    price: "260.00",
     compare_price: null,
     stock_quantity: 12,
     low_stock_threshold: 4,
     is_active: true,
     is_featured: true,
-    attributes: { material: "Ceramic" },
-    images: [{ id: 4, url: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd", alt_text: "Pour over coffee", sort_order: 1, is_primary: true }],
+    attributes: { flavour: "Tuna", pack: "5 sticks", sold_count: "213", reward_points: "3", delivery_note: "Best paired with dry meals" },
+    images: [
+      { id: 4, url: "https://images.unsplash.com/photo-1601758064224-c3c94cf1f14f", alt_text: "Pet treats", sort_order: 1, is_primary: true },
+      { id: 14, url: "https://images.unsplash.com/photo-1573865526739-10659fec78a5", alt_text: "Cat treat moment", sort_order: 2, is_primary: false },
+    ],
+    reviews: [],
+    created_at: now,
+    updated_at: now,
+  },
+  {
+    id: 5,
+    category_id: 4,
+    name: "Drools Puppy Chicken and Egg 3kg",
+    slug: "drools-puppy-chicken-and-egg-3kg",
+    sku: "DOG-DROOLS-PUP-05",
+    description: "High-protein puppy food with chicken, egg, calcium, and growth support nutrients.",
+    price: "2350.00",
+    compare_price: "2600.00",
+    stock_quantity: 9,
+    low_stock_threshold: 5,
+    is_active: true,
+    is_featured: true,
+    attributes: { weight: "3kg", flavour: "Chicken and Egg", sold_count: "45", reward_points: "24", delivery_note: "Heavy item delivery charge may vary" },
+    images: [
+      { id: 5, url: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee", alt_text: "Dog essentials", sort_order: 1, is_primary: true },
+      { id: 15, url: "https://images.unsplash.com/photo-1558788353-f76d92427f16", alt_text: "Dog with food", sort_order: 2, is_primary: false },
+    ],
+    reviews: [],
+    created_at: now,
+    updated_at: now,
+  },
+  {
+    id: 6,
+    category_id: 5,
+    name: "Cat Deworming Tablet 10mg",
+    slug: "cat-deworming-tablet-10mg",
+    sku: "HLT-DEWORM-06",
+    description: "Routine deworming support for cats. Use based on weight and vet guidance.",
+    price: "120.00",
+    compare_price: null,
+    stock_quantity: 31,
+    low_stock_threshold: 10,
+    is_active: true,
+    is_featured: false,
+    attributes: { dose: "10mg", pet_type: "Cat", sold_count: "97", reward_points: "1", delivery_note: "Consult a vet for correct dosage" },
+    images: [
+      { id: 6, url: "https://images.unsplash.com/photo-1615461066841-6116e61058f4", alt_text: "Pet health care", sort_order: 1, is_primary: true },
+      { id: 16, url: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97", alt_text: "Cat health care", sort_order: 2, is_primary: false },
+    ],
     reviews: [],
     created_at: now,
     updated_at: now,
@@ -152,7 +249,7 @@ let cart: Cart = {
   id: 1,
   status: "active",
   items: [makeCartItem(1, 1, 1), makeCartItem(2, 2, 1)],
-  subtotal: 218,
+  subtotal: 2230,
   created_at: now,
   updated_at: now,
 };
@@ -168,19 +265,19 @@ let orders: Order[] = [
     order_number: "ORD-10001",
     status: "processing",
     payment_status: "paid",
-    subtotal: "218.00",
-    discount_total: "10.00",
+    subtotal: "2230.00",
+    discount_total: "223.00",
     tax_total: "0.00",
-    shipping_total: "0.00",
-    total: "208.00",
+    shipping_total: "80.00",
+    total: "2087.00",
     coupon_code: "WELCOME10",
     customer_note: null,
     shipping_address: { city: "Dhaka", address_line_1: "Banani" },
     billing_address: null,
     user: currentUser,
     items: [
-      { id: 1, product_id: 1, product_name: "Nova Wireless Headphones", product_sku: "AUD-NOVA-01", quantity: 1, unit_price: "129.00", total: "129.00" },
-      { id: 2, product_id: 2, product_name: "Pulse Smart Watch", product_sku: "WCH-PULSE-02", quantity: 1, unit_price: "89.00", total: "89.00" },
+      { id: 1, product_id: 1, product_name: "Reflex Plus Adult Cat Food Salmon 1.5kg", product_sku: "CAT-REF-SAL-15", quantity: 1, unit_price: "1450.00", total: "1450.00" },
+      { id: 2, product_id: 2, product_name: "Tofu Cat Litter Green Tea 6L", product_sku: "LIT-TOFU-GT-06", quantity: 1, unit_price: "780.00", total: "780.00" },
     ],
     created_at: now,
     updated_at: now,
@@ -269,11 +366,49 @@ export const demoApi = {
     currentUser = { ...currentUser, ...payload };
     return currentUser;
   },
-  categories(): Paginated<Category> {
-    return page(categories);
+  categories(filters?: ApiFilters): Paginated<Category> {
+    let rows = [...categories];
+
+    if (filters?.is_active !== undefined) {
+      rows = rows.filter((category) => category.is_active === Boolean(filters.is_active));
+    }
+
+    if (filters?.search) {
+      const search = String(filters.search).toLowerCase();
+      rows = rows.filter((category) => category.name.toLowerCase().includes(search));
+    }
+
+    rows = rows.slice(0, Number(filters?.per_page ?? rows.length));
+
+    return page(rows);
   },
-  products(): Paginated<Product> {
-    return page(products.map(withCategory));
+  products(filters?: ApiFilters): Paginated<Product> {
+    let rows = products.map(withCategory);
+
+    if (filters?.is_active !== undefined) {
+      rows = rows.filter((product) => product.is_active === Boolean(filters.is_active));
+    }
+
+    if (filters?.is_featured !== undefined) {
+      rows = rows.filter((product) => product.is_featured === Boolean(filters.is_featured));
+    }
+
+    if (filters?.category_id) {
+      rows = rows.filter((product) => product.category_id === Number(filters.category_id));
+    }
+
+    if (filters?.search) {
+      const search = String(filters.search).toLowerCase();
+      rows = rows.filter((product) =>
+        [product.name, product.sku, product.description, product.category?.name]
+          .filter(Boolean)
+          .some((value) => String(value).toLowerCase().includes(search)),
+      );
+    }
+
+    rows = rows.slice(0, Number(filters?.per_page ?? rows.length));
+
+    return page(rows);
   },
   product(id: number | string): Product {
     return withCategory(products.find((product) => product.id === Number(id) || product.slug === id) ?? products[0]);
@@ -287,20 +422,27 @@ export const demoApi = {
     },
     add(productId: number, quantity: number): Cart {
       const existing = cart.items.find((item) => item.product_id === productId);
+      const product = products.find((item) => item.id === productId);
+      const stockQuantity = product?.stock_quantity ?? quantity;
 
       if (existing) {
-        existing.quantity += quantity;
+        existing.quantity = Math.min(stockQuantity, existing.quantity + quantity);
         existing.line_total = (Number(existing.unit_price) * existing.quantity).toFixed(2);
-      } else {
-        cart.items = [...cart.items, makeCartItem(nextId(cart.items), productId, quantity)];
+      } else if (stockQuantity > 0) {
+        cart.items = [...cart.items, makeCartItem(nextId(cart.items), productId, Math.min(stockQuantity, quantity))];
       }
 
       return refreshCart();
     },
     update(itemId: number, quantity: number): Cart {
-      cart.items = cart.items.map((item) =>
-        item.id === itemId ? { ...item, quantity, line_total: (Number(item.unit_price) * quantity).toFixed(2) } : item,
-      );
+      cart.items = cart.items.map((item) => {
+        if (item.id !== itemId) return item;
+
+        const product = products.find((productItem) => productItem.id === item.product_id);
+        const nextQuantity = Math.min(product?.stock_quantity ?? quantity, Math.max(1, quantity));
+
+        return { ...item, quantity: nextQuantity, line_total: (Number(item.unit_price) * nextQuantity).toFixed(2) };
+      });
 
       return refreshCart();
     },
@@ -380,7 +522,7 @@ export const demoApi = {
         gateway_payment_id: null,
         gateway_reference: null,
         amount: order?.total ?? "0.00",
-        currency: "USD",
+        currency: "BDT",
         checkout_url: null,
         paid_at: null,
         created_at: new Date().toISOString(),

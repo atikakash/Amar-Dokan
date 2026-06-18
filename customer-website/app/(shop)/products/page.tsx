@@ -1,7 +1,7 @@
 import { ProductsPage } from "@/components/features/products/products-page";
 
-export default async function ProductsRoute({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+export default async function ProductsRoute({ searchParams }: { searchParams: Promise<{ category?: string; q?: string }> }) {
   const params = await searchParams;
 
-  return <ProductsPage initialCategory={params.category} />;
+  return <ProductsPage initialCategory={params.category} initialSearch={params.q} />;
 }

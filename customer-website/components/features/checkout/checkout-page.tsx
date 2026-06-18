@@ -21,7 +21,7 @@ export function CheckoutPage() {
   const coupon = useCouponValidation();
   const [code, setCode] = useState("");
   const [note, setNote] = useState("");
-  const [gateway, setGateway] = useState<PaymentGateway>("stripe");
+  const [gateway, setGateway] = useState<PaymentGateway>("sslcommerz");
   const [address, setAddress] = useState({
     name: "",
     phone: "",
@@ -30,11 +30,11 @@ export function CheckoutPage() {
     city: "",
     state: "",
     postal_code: "",
-    country: "United States",
+    country: "Bangladesh",
   });
   const subtotal = (cart.data?.items ?? []).reduce((sum, item) => sum + Number(item.line_total), 0);
   const discount = coupon.data?.discount ?? 0;
-  const shipping = subtotal > 0 ? 0 : 0;
+  const shipping = subtotal > 0 ? 80 : 0;
   const total = Math.max(0, subtotal - discount + shipping);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -61,7 +61,7 @@ export function CheckoutPage() {
       <SectionHeading title="Checkout" description="Confirm delivery details and place your order." />
       <form className="grid gap-6 lg:grid-cols-[1fr_360px]" onSubmit={submit}>
         <Card>
-          <CardHeader title="Shipping Address" />
+          <CardHeader title="Delivery Address" />
           <CardContent className="grid gap-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Name">
@@ -106,9 +106,9 @@ export function CheckoutPage() {
             </div>
             <Field label="Payment Method">
               <Select value={gateway} onChange={(event) => setGateway(event.target.value as PaymentGateway)}>
-                <option value="stripe">Stripe</option>
                 <option value="sslcommerz">SSLCommerz</option>
                 <option value="bkash">bKash</option>
+                <option value="stripe">Stripe</option>
               </Select>
             </Field>
             {coupon.isError ? <p className="text-sm text-danger">{apiErrorMessage(coupon.error)}</p> : null}

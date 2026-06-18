@@ -101,7 +101,7 @@ export const catalogApi = {
         const { data } = await api.get<Paginated<Category>>("/categories", params(filters));
         return data;
       },
-      () => demoApi.categories(),
+      () => demoApi.categories(filters),
     );
   },
   async products(filters?: ApiFilters) {
@@ -110,7 +110,7 @@ export const catalogApi = {
         const { data } = await api.get<Paginated<Product>>("/products", params(filters));
         return data;
       },
-      () => demoApi.products(),
+      () => demoApi.products(filters),
     );
   },
   async product(id: number | string) {

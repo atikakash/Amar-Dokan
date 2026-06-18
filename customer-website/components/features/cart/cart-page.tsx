@@ -14,10 +14,11 @@ export function CartPage() {
   const mutations = useCartMutations();
   const items = cart.data?.items ?? [];
   const subtotal = items.reduce((sum, item) => sum + Number(item.line_total), 0);
+  const shipping = items.length > 0 ? 80 : 0;
 
   return (
     <AuthGuard>
-      <SectionHeading title="Cart" description="Review quantities and stock-aware line items before checkout." />
+      <SectionHeading title="Cart" description="Review pet essentials, delivery charge, and stock-aware quantities before checkout." />
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <Card>
           <CardHeader title="Items" description={`${items.length} products in your cart`} />
@@ -30,12 +31,27 @@ export function CartPage() {
                     {item.product?.name ?? "Product"}
                   </Link>
                   <p className="mt-1 text-sm text-muted">{currency(item.unit_price)}</p>
+                  {item.product ? (
+                    <p className="mt-1 text-xs text-muted">
+                      {item.product.stock_quantity > 0 ? `${item.product.stock_quantity} available` : "Out of stock"}
+                    </p>
+                  ) : null}
                   <div className="mt-3 inline-flex h-9 items-center rounded-md border border-border">
-                    <button className="px-3 text-muted" onClick={() => mutations.update.mutate({ itemId: item.id, quantity: Math.max(1, item.quantity - 1) })} aria-label="Decrease quantity">
+                    <button
+                      className="px-3 text-muted disabled:cursor-not-allowed disabled:opacity-40"
+                      disabled={item.quantity <= 1 || mutations.update.isPending}
+                      onClick={() => mutations.update.mutate({ itemId: item.id, quantity: Math.max(1, item.quantity - 1) })}
+                      aria-label="Decrease quantity"
+                    >
                       <Minus className="h-4 w-4" />
                     </button>
                     <span className="w-10 text-center text-sm">{item.quantity}</span>
-                    <button className="px-3 text-muted" onClick={() => mutations.update.mutate({ itemId: item.id, quantity: item.quantity + 1 })} aria-label="Increase quantity">
+                    <button
+                      className="px-3 text-muted disabled:cursor-not-allowed disabled:opacity-40"
+                      disabled={mutations.update.isPending || Boolean(item.product && item.quantity >= item.product.stock_quantity)}
+                      onClick={() => mutations.update.mutate({ itemId: item.id, quantity: item.quantity + 1 })}
+                      aria-label="Increase quantity"
+                    >
                       <Plus className="h-4 w-4" />
                     </button>
                   </div>
@@ -61,12 +77,13 @@ export function CartPage() {
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted">Shipping</span>
-              <span className="font-medium text-ink">{currency(0)}</span>
+              <span className="font-medium text-ink">{currency(shipping)}</span>
             </div>
+            <p className="text-xs leading-5 text-muted">Inside Dhaka delivery estimate. Heavy food or litter bags may be adjusted after confirmation.</p>
             <div className="border-t border-border pt-3">
               <div className="flex justify-between">
                 <span className="font-semibold text-ink">Total</span>
-                <span className="font-semibold text-ink">{currency(subtotal)}</span>
+                <span className="font-semibold text-ink">{currency(subtotal + shipping)}</span>
               </div>
             </div>
             <Link href="/checkout">
