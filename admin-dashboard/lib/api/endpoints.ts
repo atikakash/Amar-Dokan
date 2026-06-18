@@ -75,7 +75,7 @@ export const productsApi = {
         const { data } = await api.get<Paginated<Product>>("/products", params(filters));
         return data;
       },
-      () => demoApi.products.list(),
+      () => demoApi.products.list(filters),
     );
   },
   async create(payload: ProductPayload) {
@@ -113,7 +113,7 @@ export const categoriesApi = {
         const { data } = await api.get<Paginated<Category>>("/categories", params(filters));
         return data;
       },
-      () => demoApi.categories.list(),
+      () => demoApi.categories.list(filters),
     );
   },
   async create(payload: Partial<Category>) {
@@ -151,7 +151,7 @@ export const ordersApi = {
         const { data } = await api.get<Paginated<Order>>("/orders", params(filters));
         return data;
       },
-      () => demoApi.orders.list(),
+      () => demoApi.orders.list(filters),
     );
   },
   async updateStatus(id: number, status: OrderStatus) {
@@ -172,7 +172,7 @@ export const couponsApi = {
         const { data } = await api.get<Paginated<Coupon>>("/coupons", params(filters));
         return data;
       },
-      () => demoApi.coupons.list(),
+      () => demoApi.coupons.list(filters),
     );
   },
   async create(payload: Partial<Coupon>) {
@@ -210,7 +210,7 @@ export const customersApi = {
         const { data } = await api.get<Paginated<User>>("/users", params({ role: "customer", ...filters }));
         return data;
       },
-      () => demoApi.customers.list(),
+      () => demoApi.customers.list({ role: "customer", ...filters }),
     );
   },
 };

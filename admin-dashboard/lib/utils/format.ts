@@ -1,9 +1,10 @@
 export function currency(value: number | string | null | undefined) {
   const amount = Number(value ?? 0);
 
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("en-BD", {
     style: "currency",
-    currency: "USD",
+    currency: "BDT",
+    maximumFractionDigits: 0,
   }).format(amount);
 }
 

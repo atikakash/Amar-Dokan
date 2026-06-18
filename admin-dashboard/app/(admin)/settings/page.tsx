@@ -17,9 +17,9 @@ type Settings = {
 };
 
 const defaults: Settings = {
-  storeName: "Ecommerce Store",
-  supportEmail: "support@example.com",
-  currency: "USD",
+  storeName: "MewMew Pet Shop",
+  supportEmail: "support@mewmewpet.shop",
+  currency: "BDT",
   lowStockDefault: "5",
   orderApproval: true,
   maintenanceMode: false,
@@ -59,8 +59,8 @@ export default function SettingsPage() {
               </Field>
               <Field label="Currency">
                 <Select value={settings.currency} onChange={(event) => setSettings({ ...settings, currency: event.target.value })}>
-                  <option value="USD">USD</option>
                   <option value="BDT">BDT</option>
+                  <option value="USD">USD</option>
                   <option value="EUR">EUR</option>
                   <option value="GBP">GBP</option>
                 </Select>

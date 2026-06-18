@@ -49,8 +49,8 @@ export function Sidebar({ open, collapsed, onToggle, onClose }: { open: boolean;
               <BarChart3 className="h-5 w-5" />
             </span>
             <span className={cn(collapsed && "lg:hidden")}>
-              <span className="block text-sm font-semibold text-ink">Commerce Admin</span>
-              <span className="block text-xs text-muted">Operations console</span>
+              <span className="block text-sm font-semibold text-ink">MewMew Admin</span>
+              <span className="block text-xs text-muted">Pet shop operations</span>
             </span>
           </Link>
           <button className="rounded-md p-2 text-muted lg:hidden" onClick={onClose} aria-label="Close navigation">
